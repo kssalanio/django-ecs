@@ -1,6 +1,6 @@
 variable "region" {
   description = "The AWS region to create resources in."
-  default     = "us-east-2"
+  default     = "us-east-1"
 }
 
 variable "project_name" {
@@ -10,7 +10,7 @@ variable "project_name" {
 
 variable "availability_zones" {
   description = "Availability zones"
-  default     = ["us-east-2a", "us-east-2c"]
+  default     = ["us-east-1a", "us-east-1c"]
 }
 
 variable "ecs_prod_backend_retention_days" {
