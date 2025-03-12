@@ -54,13 +54,36 @@ RUN poetry install
 
 # Create final image
 FROM python-base as django-aws
+
 ARG ENVIRONMENT=dev
+ARG DJANGO_SUPERUSER_USERNAME
+ARG DJANGO_SUPERUSER_PASSWORD
+ARG DJANGO_SUPERUSER_EMAIL
+
 ENV ENVIRONMENT=$ENVIRONMENT
+ENV DJANGO_SUPERUSER_USERNAME=$DJANGO_SUPERUSER_USERNAME
+ENV DJANGO_SUPERUSER_PASSWORD=$DJANGO_SUPERUSER_PASSWORD
+ENV DJANGO_SUPERUSER_EMAIL=$DJANGO_SUPERUSER_EMAIL
 ENV FASTAPI_ENV=production
+
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
 # Set work dir and copy app and entrypoint script
 WORKDIR /django_aws
 COPY ./django_aws /django_aws
+RUN rm -f /django_aws/db.sqlite3
 COPY ./scripts/entrypoint.sh /django_aws
+
+# Change timezone to ET - America/New_York
+RUN rm -rf /etc/localtime \
+  && ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
+
+# Create static and media directories
+RUN mkdir -p /var/www/django_aws/static \
+  && mkdir -p /var/www/django_aws/media
+
+# Collect static files for prod environment
+RUN /django_aws/manage.py collectstatic --noinput
+
+# Run entrypoint script
 ENTRYPOINT [ "/django_aws/entrypoint.sh" ]

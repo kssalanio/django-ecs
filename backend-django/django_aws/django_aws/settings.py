@@ -121,3 +121,11 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+#
+STATIC_URL = "/static/"
+STATIC_ROOT = "/var/www/django_aws/static"
+# STATICFILES_DIRS = [env("CELERY_FLOWER_STATICFILES_DIR")]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = "/var/www/django_aws/media"
