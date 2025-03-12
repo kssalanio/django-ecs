@@ -49,44 +49,18 @@ WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
 
 # install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
-# RUN poetry install --no-dev
+# RUN poetry install --no-dev # Option --no-dev is deprecated
 RUN poetry install
 
-
-# `development` image is used during development / testing
-# FROM python-base as development
-# ENV FASTAPI_ENV=development
-# WORKDIR $PYSETUP_PATH
-
-# # copy in our built poetry + venv
-# COPY --from=builder-base $POETRY_HOME $POETRY_HOME
-# COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
-
-# # quicker install as runtime deps are already installed
-# RUN poetry install
-
-# # will become mountpoint of our code
-# # WORKDIR /app
-# WORKDIR /django_aws
-
-
-# EXPOSE 8000
-# # CMD ["uvicorn", "--reload", "main:app"]
-# CMD ["uvicorn", "--reload", "--chdir", "/django_aws/django_aws/ django_aws.wsgi", "--reload", "django_aws.wsgi:application"]
-
-
-# `production` image used for runtime
-FROM python-base as production
+# Create final image
+FROM python-base as django-aws
 ARG ENVIRONMENT=dev
 ENV ENVIRONMENT=$ENVIRONMENT
 ENV FASTAPI_ENV=production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
-# COPY ./app /app/
-# WORKDIR /app
 
+# Set work dir and copy app and entrypoint script
 WORKDIR /django_aws
 COPY ./django_aws /django_aws
-ENTRYPOINT [ "/backend-django/scripts/entrypoint.sh" ]
-# CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "--chdir", "/django_aws/django_aws/ django_aws.wsgi", "--reload", "django_aws.wsgi:application"]
-# gunicorn -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --chdir /django_aws/ django_aws.wsgi --reload
-# gunicorn --bind 0.0.0.0:8000 --chdir /django_aws/ django_aws.wsgi --reload
+COPY ./scripts/entrypoint.sh /django_aws
+ENTRYPOINT [ "/django_aws/entrypoint.sh" ]
