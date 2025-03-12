@@ -37,9 +37,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
+    "rest_framework",
+    "knox",
+    "django_aws.todo",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -129,3 +134,8 @@ STATIC_ROOT = "/var/www/django_aws/static"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "/var/www/django_aws/media"
+
+# whitelist localhost:3000 for frontend
+CORS_ORIGIN_WHITELIST = [
+     "http://localhost:3000",
+]
