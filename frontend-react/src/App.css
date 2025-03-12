@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+/* .btn {
+  padding: 10 !important;
+} */
+
+.mt-n1 {
+  margin: 0.25rem !important;
+}

@@ -37,13 +37,13 @@ class App extends Component {
       <div className="my-5 tab-list">
         <span
           onClick={() => this.displayCompleted(true)}
-          className={this.state.viewCompleted ? "active" : ""}
+          className={this.state.viewCompleted ? "m-1 btn btn-info active" : "m-1 btn btn-secondary"}
         >
-          complete
+          Completed
         </span>
         <span
           onClick={() => this.displayCompleted(false)}
-          className={this.state.viewCompleted ? "" : "active"}
+          className={this.state.viewCompleted ? "m-1 btn btn-secondary" : "m-1 btn btn-info active"}
         >
           Incomplete
         </span>
@@ -71,14 +71,14 @@ class App extends Component {
         <span>
           <button
             onClick={() => this.editItem(item)}
-            className="btn btn-secondary mr-2"
+            className="m-1 btn btn-secondary mr-2"
           >
             {" "}
             Edit{" "}
           </button>
           <button
             onClick={() => this.handleDelete(item)}
-            className="btn btn-danger"
+            className="m-1 btn btn-danger"
           >
             Delete{" "}
           </button>
@@ -121,7 +121,7 @@ class App extends Component {
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <div className="">
-                <button onClick={this.createItem} className="btn btn-primary">
+                <button onClick={this.createItem} className="m-1 btn btn-lg btn-primary">
                   Add task
                 </button>
               </div>
