@@ -1,0 +1,21 @@
+services:
+  backend-django:
+    build:    
+      context: ./backend-django
+      args:
+        # NOTE: Requires a .env file in same directory. Copy from .env.sample
+        ENVIRONMENT: $ENVIRONMENT
+        DJANGO_SUPERUSER_USERNAME: $DJANGO_SUPERUSER_USERNAME
+        DJANGO_SUPERUSER_PASSWORD: $DJANGO_SUPERUSER_PASSWORD
+        DJANGO_SUPERUSER_EMAIL: $DJANGO_SUPERUSER_EMAIL
+    image: backend-django
+    container_name: backend-django
+    ports:
+      - "8000:8000"
+
+  frontend-react:
+    build: ./frontend-react
+    image: frontend-react
+    container_name: frontend-react
+    ports:
+      - "3000:3000"
