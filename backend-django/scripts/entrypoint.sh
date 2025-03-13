@@ -4,6 +4,9 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+# DB Migration
+/django_aws/manage.py migrate
+
 # Create superuser using env variable
 if [[ -z "$DJANGO_SUPERUSER_USERNAME" || -z "$DJANGO_SUPERUSER_PASSWORD" || -z "$DJANGO_SUPERUSER_EMAIL" ]]
 then
