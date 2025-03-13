@@ -139,3 +139,4 @@ MEDIA_ROOT = "/var/www/django_aws/media"
 CORS_ORIGIN_WHITELIST = [
      "http://localhost:3000",
 ]
+CORS_ALLOW_ALL_ORIGINS=DEBUG
